@@ -24,8 +24,12 @@ static int getHexagonIndex(int id);
 static int getRelayNodeSize(int i,int v,int N, double w);
 static int getNextHop(int i,int j,int u,int v);
 
-WSNNode::WSNNode(int n) {
+void WSNNode::setId(int n) {
 	// TODO Auto-generated constructor stub
+	int debug  = 8;
+	if(n==debug){
+		n=debug;
+	}
 	id = n;
 	i = getHexagonLevel(n);
 	j = getHexagonIndex(n);
@@ -47,17 +51,18 @@ WSNNode::WSNNode(int n) {
 
 WSNNode::~WSNNode() {
 	// TODO Auto-generated destructor stub
+	std::cout<<"delete:node "<<id<<std::endl;
 	delete(relayNodeEnergy);
 }
 
 int WSNNode::startSensor(int t) {
 	bool flag = consumeSensorEnergy();
     if(id!=0+NETW_OFFSET&&flag){
+        return getNextHop(i,j,u,v);
+	}else{
     	if(flag){
     		std::cout<<"ERROR:id==0+NETW_OFFSET"<<std::endl;
     	}
-        return getNextHop(i,j,u,v);
-	}else{
 		return -1;
 	}
 }
@@ -84,7 +89,22 @@ void WSNNode::record() {
 }
 
 WSNNode::WSNNode() {
-	WSNNode(0);
+
+	// TODO Auto-generated constructor stub
+	id = 0;
+	i = 0;
+	j = 0;
+	if (i != 0) {
+		v = j % i;
+		u = j / i;
+	} else {
+		v = 0;
+		j = 0;
+	}
+    relayNodeSize = 0; // FIXME the fourth argument is temporarily set to 1.0
+    relayNodeEnergy = NULL;
+    activatedRelayNode = 0;
+    sensorNodeEnergy = 0;
 }
 
 bool WSNNode::consumeTransmitEnergy(double distance , int bits) {
@@ -104,11 +124,11 @@ bool WSNNode::consumeTransmitEnergy(double distance , int bits) {
 int WSNNode::startTransimit() {
 	bool flag = consumeTransmitEnergy(0,0);
     if(id!=0+NETW_OFFSET&&flag){
+    	return getNextHop(i,j,u,v);
+    }else{
     	if(flag){
     		std::cout<<"ERROR:id==0+NETW_OFFSET"<<std::endl;
     	}
-    	return getNextHop(i,j,u,v);
-    }else{
     	return -1;
     }
 }

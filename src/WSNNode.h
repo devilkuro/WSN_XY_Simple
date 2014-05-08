@@ -13,7 +13,6 @@
 class WSNNode {
 public:
 	WSNNode();
-	WSNNode(int n);
 	virtual ~WSNNode();
 
 public:
@@ -21,6 +20,7 @@ public:
 	int startTransimit();
 	void output();
 	void record();
+	void setId(int n);
 
 	static GlobalStatistics gs;
 
