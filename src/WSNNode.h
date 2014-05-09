@@ -22,6 +22,12 @@ public:
 	void record();
 	void setId(int n);
 
+	double *relayNodeEnergy;
+	int relayNodeSize;
+	int activatedRelayNode;
+	double sensorNodeEnergy;
+	int i,j,u,v,id;
+
 	static GlobalStatistics gs;
 
 	static double initialRelayEnergy; // initial energy of the relay node
@@ -34,11 +40,6 @@ private:
     bool consumeSensorEnergy();
     bool consumeTransmitEnergy(double distance , int bits);
 
-	double *relayNodeEnergy;
-	int relayNodeSize;
-	int activatedRelayNode;
-	double sensorNodeEnergy;
-	int i,j,u,v,id;
 
 };
 

@@ -16,7 +16,7 @@ double WSNNode::initialRelayEnergy = 82;
 double WSNNode::deadRelayEnergy = 0;
 double WSNNode::initialSensorEnergy = 50; // initial energy of the sensor node
 double WSNNode::deadSensorEnergy = 0; // death threshold of the sensor node
-int WSNNode::N = 3;
+int WSNNode::N = 5;
 GlobalStatistics WSNNode::gs = GlobalStatistics();
 
 static int getHexagonLevel(int id);
@@ -38,7 +38,7 @@ void WSNNode::setId(int n) {
 		u = j / i;
 	} else {
 		v = 0;
-		j = 0;
+		u = 0;
 	}
     relayNodeSize = getRelayNodeSize(i,v,N,1.0); // FIXME the fourth argument is temporarily set to 1.0
     relayNodeEnergy = new double[relayNodeSize];
@@ -164,8 +164,8 @@ inline int getNextHop(int i, int j, int u, int v) {
     if(i==1)
         return 0+NETW_OFFSET;
     if(v!=0&&rand()%100>49){
-        return 3*(i-1)*((i-1)-1)+(i-1)*u+(v-1)+1+NETW_OFFSET;
+        return 1+3*(i-1)*((i-1)-1)+((i-1)*u+(v-1))%((i-1)*6)+NETW_OFFSET;
     }else
-        return 3*(i-1)*((i-1)-1)+(i-1)*u+(v-0)+1+NETW_OFFSET;
+        return 1+3*(i-1)*((i-1)-1)+((i-1)*u+(v-0))%((i-1)*6)+NETW_OFFSET;
 }
 
